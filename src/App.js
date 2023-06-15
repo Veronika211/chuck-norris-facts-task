@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LandingPage from "./pages/landingPage/LandingPage";
+import FactDetailsPage from "./pages/factDetails/FactDetailsPage";
+import { QueryClientProvider, QueryClient } from "react-query";
+import { FactProvider } from "./store/FactContext";
+import { MainContainer } from "./App.styles";
+import GlobalStyles from "./styles/GlobalStyles";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <GlobalStyles />
+      <MainContainer>
+        <QueryClientProvider client={queryClient}>
+          <FactProvider>
+            <Router>
+              <Routes>
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/fact/:id" element={<FactDetailsPage />} />
+              </Routes>
+            </Router>
+          </FactProvider>
+        </QueryClientProvider>
+      </MainContainer>
+    </React.Fragment>
   );
 }
 
